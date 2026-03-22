@@ -1,0 +1,107 @@
+{
+    "publicKey": [82, 165, 255, 235,  61, 184,  18,  49, 117, 164, 181,  80,  70,  39, 185, 251, 28,  34, 242,  63, 111, 199, 127, 203, 113,  87,  37,  54, 225, 174,  35, 144],
+    "publicKeyDisplay": "52a5ffeb3db8123175a4b5504627b9fb1c22f23f6fc77fcb71572536e1ae2390",
+    "primaryKey": "AAJYYTSWQ0932WD4PN84C9WSYCE25VHYDY3QYJUHAVJKDRDE4E800",
+    "name": "Aa",
+    "id": "Aa@JYYTSWQ0932WD4PN84C9WSYCE25VHYDY3QYJUHAVJKDRDE4E800",
+    "fingerprint": [
+        9,
+        16,
+        15,
+        5,
+        20,
+        18,
+        9,
+        22,
+        20,
+        19,
+        4,
+        21,
+        6,
+        5,
+        13,
+        21,
+        30,
+        7,
+        2,
+        15,
+        15,
+        1,
+        3,
+        20,
+        14,
+        8,
+        25,
+        20,
+        6,
+        20,
+        21,
+        19,
+        3,
+        9,
+        27,
+        20,
+        16,
+        25,
+        1,
+        18,
+        31,
+        12,
+        25,
+        21,
+        4,
+        13,
+        22,
+        31,
+        31,
+        0,
+        14,
+        16
+    ],
+    "fingerprintDisplay": "🏁🎁🔥⭐🎵🔑🏁🎉🎵👑💪💡👍⭐🌙💡☁️🙏🍴🔥🔥✒️❤️🎵⚡️☃️☀️🎵👍🎵💡👑❤️🏁☔️🎵🎁☀️✒️🔑⏰🚗☀️💡💪🌙🎉⏰⏰😀⚡️🎁",
+    "body": "A",
+    "tombstone": false,
+    "operations": [
+        {
+            "hash": "21ce938532608aec598f59c9484e5693a581c604710e9778562e193d5258f307",
+            "id": "Aa@JYYTSWQ0932WD4PN84C9WSYCE25VHYDY3QYJUHAVJKDRDE4E800",
+            "type": "CREATE"
+        },
+        {
+            "hash": "54e4a7e466f9a4783f39b3657b7112206dc746d5badcfacd3b09c253d5612034",
+            "id": "Aa@JYYTSWQ0932WD4PN84C9WSYCE25VHYDY3QYJUHAVJKDRDE4E800",
+            "previousHash": "21ce938532608aec598f59c9484e5693a581c604710e9778562e193d5258f307",
+            "type": "SET",
+            "body": "A"
+        }
+    ],
+    "messages": [
+        {
+            "raw": "Aa@JYYTSWQ0932WD4PN84C9WSYCE25VHYDY3QYJUHAVJKDRDE4E800",
+            "cryptoName": "Ed25519",
+            "publicKey": "52a5ffeb3db8123175a4b5504627b9fb1c22f23f6fc77fcb71572536e1ae2390",
+            "signature": "3f96f7474535937b17c2a773c75292eecc6cd15197eb74ac77d7adf39d4b326c79cce6ee1f90af14e97d6f1308a145a9d5c9d160f186bbf392906f401438850d",
+            "datetime": 1764365146952,
+            "operation": {
+                "hash": "21ce938532608aec598f59c9484e5693a581c604710e9778562e193d5258f307",
+                "id": "Aa@JYYTSWQ0932WD4PN84C9WSYCE25VHYDY3QYJUHAVJKDRDE4E800",
+                "type": "CREATE"
+            }
+        },
+        {
+            "raw": "Aa@JYYTSWQ0932WD4PN84C9WSYCE25VHYDY3QYJUHAVJKDRDE4E800\n21ce938532608aec598f59c9484e5693a581c604710e9778562e193d5258f307\n1\nA",
+            "cryptoName": "Ed25519",
+            "publicKey": "52a5ffeb3db8123175a4b5504627b9fb1c22f23f6fc77fcb71572536e1ae2390",
+            "signature": "fa9e994a78ffc52e3f55e3ca32e1b1e1aeba71b16bd2e4d7698efc0e6faa316dc9166a7b9ef6b14919384902654a1f3313b765cca21831dc19e990ca33231e07",
+            "datetime": 1764365146952,
+            "operation": {
+                "hash": "54e4a7e466f9a4783f39b3657b7112206dc746d5badcfacd3b09c253d5612034",
+                "id": "Aa@JYYTSWQ0932WD4PN84C9WSYCE25VHYDY3QYJUHAVJKDRDE4E800",
+                "previousHash": "21ce938532608aec598f59c9484e5693a581c604710e9778562e193d5258f307",
+                "type": "SET",
+                "body": "A"
+            }
+        }
+    ],
+    "subKeys": []
+}

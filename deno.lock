@@ -1,0 +1,101 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@noble/curves@2.0.1": "2.0.1",
+    "jsr:@noble/ed25519@3": "3.0.1",
+    "jsr:@noble/hashes@2": "2.0.1",
+    "jsr:@noble/hashes@2.0.1": "2.0.1",
+    "jsr:@noble/hashes@^1.8.0": "1.8.0",
+    "jsr:@noble/secp256k1@3": "3.0.0",
+    "jsr:@scure/base@2.0.0": "2.0.0",
+    "jsr:@scure/bip32@^2.0.1": "2.0.1",
+    "jsr:@scure/bip39@^2.0.1": "2.0.1",
+    "jsr:@std/assert@1": "1.0.19",
+    "jsr:@std/internal@^1.0.12": "1.0.12",
+    "jsr:@vanice/types@~0.2.48": "0.2.48",
+    "npm:@cfworker/json-schema@^4.1.1": "4.1.1",
+    "npm:ts-blank-space@0.7": "0.7.0"
+  },
+  "jsr": {
+    "@noble/curves@2.0.1": {
+      "integrity": "21ef41d207a203f60ba37a4fdcbc4f4a545b10c5dab7f293889f18292f81ab23",
+      "dependencies": [
+        "jsr:@noble/hashes@2"
+      ]
+    },
+    "@noble/ed25519@3.0.1": {
+      "integrity": "a347b5fbb73cdefdef2adb5d79d5f62805657304be315de498479d7af51617bc"
+    },
+    "@noble/hashes@1.8.0": {
+      "integrity": "b52a2fcb4d02f8d8137871564a31f1ee9e2b0d15eedabbf32d2f7333f0abc939"
+    },
+    "@noble/hashes@2.0.1": {
+      "integrity": "e0e908292a0bf91099cf8ba0720a1647cef82ab38b588815b5e9535b4ff4d7bb"
+    },
+    "@noble/secp256k1@3.0.0": {
+      "integrity": "8d1639a9c06fcffacf720d8319e8e996e9fbfbaf868324e4cec5dc56b2ade1b9"
+    },
+    "@scure/base@2.0.0": {
+      "integrity": "2828432e39fdfc6712ce2a3029c56621e293e38ac5aa02be8c5ead312836fe2f"
+    },
+    "@scure/bip32@2.0.1": {
+      "integrity": "c35ab32dddac27cef80cf3f818294d2dc2c9fdb42f524f1dc1fda9f0f20d149a",
+      "dependencies": [
+        "jsr:@noble/curves",
+        "jsr:@noble/hashes@2.0.1",
+        "jsr:@scure/base"
+      ]
+    },
+    "@scure/bip39@2.0.1": {
+      "integrity": "18c276b3c6bb5ffa5cb369f1602f00a2e90a11e24ddd32afebc399c57dbd1550",
+      "dependencies": [
+        "jsr:@noble/hashes@2.0.1",
+        "jsr:@scure/base"
+      ]
+    },
+    "@std/assert@1.0.19": {
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.12": {
+      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
+    },
+    "@vanice/types@0.2.48": {
+      "integrity": "994c1258f0eb274eb160527f4b936a5bb0ddd475f8e2aec4d6505d718e18d06d",
+      "dependencies": [
+        "jsr:@noble/ed25519",
+        "jsr:@noble/hashes@^1.8.0",
+        "jsr:@noble/secp256k1",
+        "jsr:@scure/bip32",
+        "jsr:@scure/bip39",
+        "npm:@cfworker/json-schema",
+        "npm:ts-blank-space"
+      ]
+    }
+  },
+  "npm": {
+    "@cfworker/json-schema@4.1.1": {
+      "integrity": "sha512-gAmrUZSGtKc3AiBL71iNWxDsyUC5uMaKKGdvzYsBoTW/xi42JQHl7eKV2OYzCUqvc+D2RCcf7EXY2iCyFIk6og=="
+    },
+    "ts-blank-space@0.7.0": {
+      "integrity": "sha512-1D9ytD3K9QGGWJWFslEeQFvIwiOlj8rS3s+WA45DAHxqtvnyc+vzg2C8OLjoOyQKMgLrzndEcR5TNWsVC4daLQ==",
+      "dependencies": [
+        "typescript"
+      ]
+    },
+    "typescript@5.9.2": {
+      "integrity": "sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==",
+      "bin": true
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@1",
+      "jsr:@vanice/types@~0.2.48",
+      "npm:@cfworker/json-schema@^4.1.1",
+      "npm:ts-blank-space@0.7"
+    ]
+  }
+}
