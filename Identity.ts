@@ -1,11 +1,28 @@
 import { type PrimaryKey, isPrimaryKey, readCryptoNameFromPrimaryKey,  } from "@vanice/types"
 import { type Name, type FingerprintedName, isFingerprintedName, isName } from "@vanice/types"
-import { type NameKey, isNameKey } from "@vanice/types"
-import { type FingerprintDisplay, isFingerprintDisplay } from "@vanice/types"
-import { type PublicKeyDisplay, isPublicKeyDisplayByCryptoName } from "@vanice/types"
+import { type NameKey, isNameKey, toNameKey, parseNameKey } from "@vanice/types"
+import { type FingerprintDisplay, isFingerprintDisplay, parseFingerprintedName, fingerprintedNameBelongsToPrimaryKey } from "@vanice/types"
+import { 
+  type PublicKeyDisplay, 
+  type PrivateKeyDisplay, 
+  type MnemonicDisplay, 
+  type MnemonicPassphrase,
+  type CryptoName, 
+  type KeyPairDisplay,
+  isPublicKeyDisplayByCryptoName,
+  isMnemonicDisplay,
+  keyPairFromMnemonic,
+  fromMnemonicDisplay,
+  keyPairFromPrivateKey,
+  publicKeyToPrimaryKey,
+  displayKeyPair,
+  cryptoNames,
+  fromHex
+} from "@vanice/types"
 import type { Operations } from "./Operation.ts"
 import { areOperations, buildItemFromOperations, buildIdentityFromOperations } from "./Operations.ts"
 import { isMessage, type Messages } from "./Message.ts"
+import { type PathStringified, isPathStringified, parseAmbiguousPath } from "./Path.ts"
 import isObject from "./lib/utils/isObject.ts"
 import isArray from "./lib/utils/isArray.ts"
 import isString from "./lib/utils/isString.ts"
@@ -164,4 +181,62 @@ export const getUnsignedOperations = (item: ItemWithMessages | IdentityWithMessa
   const { operations, messages } = item
   const rawOperations = new Set(messages.map(({ raw }) => raw))
   return operations.filter(operation => rawOperations.has(toRawOperation(operation)) === false)
+}
+
+export const identify = async (id: NameKey | PathStringified | FingerprintedName, privateKeyOrMnemonic: PrivateKeyDisplay | MnemonicDisplay, mnemonicPassphrase?: MnemonicPassphrase): Promise<[Identifier, KeyPairDisplay]> => {
+
+  const getKeyPair = (cryptoName: CryptoName) => {
+    return isMnemonicDisplay(privateKeyOrMnemonic) ? 
+      keyPairFromMnemonic(cryptoName, fromMnemonicDisplay(privateKeyOrMnemonic), mnemonicPassphrase) : 
+      keyPairFromPrivateKey(cryptoName, fromHex(privateKeyOrMnemonic))
+  }
+
+  const tryFindingIdentity = async (id: FingerprintedName): Promise<[Identifier, KeyPairDisplay]> => {
+    const results: [Identifier, KeyPairDisplay][] = []
+    for (const cryptoName of cryptoNames) {
+      try {
+        const keyPair = getKeyPair(cryptoName)
+        const primaryKey = publicKeyToPrimaryKey(cryptoName, keyPair.publicKey)
+        if (await fingerprintedNameBelongsToPrimaryKey(id, primaryKey)) {
+          const name = isName(id) ? id : parseFingerprintedName(id)[0]
+          const nameKey = toNameKey(name, primaryKey)
+          results.push([nameKey, displayKeyPair(keyPair)])
+        }
+      } catch { continue }
+    }
+    if (results.length === 0) {
+      throw new Error(`Private key or Mnemonic does not match supplied id: ${ id }`)
+    } else if (results.length > 1) {
+      throw new Error(`Supplied id: ${ id } is ambiguous and matches multiple identities (on different CryptoNames). Use a longer Fingerprint.`)
+    } else {
+      return results[0]!
+    }
+  }
+
+  if (isNameKey(id)) {
+    const [primaryKey] = parseNameKey(id)
+    const cryptoName = readCryptoNameFromPrimaryKey(primaryKey)
+    const keyPair = getKeyPair(cryptoName)
+    const keyPairPrimaryKey = publicKeyToPrimaryKey(cryptoName, keyPair.publicKey)
+    if (keyPairPrimaryKey !== primaryKey) {
+      throw new Error(`PrivateKey does not match NameKey: ${ id }`)
+    }
+    return [id, displayKeyPair(keyPair)] as const
+  } else if (isFingerprintedName(id)) {
+    return await tryFindingIdentity(id)
+  } else if (isPathStringified(id)) {
+    const path = parseAmbiguousPath(id)
+    if (path.elements[0]?.type === "IDENTITY") {
+      if (path.elements[1]?.type === "SUBKEY") {
+        const [, keyPair] = await tryFindingIdentity(path.elements[1].id as FingerprintedName)
+        return [path.elements[0].id, keyPair] as const
+      } else {
+        return await tryFindingIdentity(path.elements[0].id as FingerprintedName)
+      }
+    } else {
+      throw new Error(`Invalid PathStringified: ${ id }`)
+    }
+  } else {
+    throw new Error(`Invalid id parameter: ${ id } (must be a NameKey, FingerprintedName or PathStringified)`)
+  }
 }

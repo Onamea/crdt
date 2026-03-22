@@ -12,7 +12,7 @@
     "jsr:@scure/bip39@^2.0.1": "2.0.1",
     "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.12",
-    "jsr:@vanice/types@~0.2.48": "0.2.48",
+    "jsr:@vanice/types@0.3": "0.3.0",
     "npm:@cfworker/json-schema@^4.1.1": "4.1.1",
     "npm:ts-blank-space@0.7": "0.7.0"
   },
@@ -62,16 +62,14 @@
     "@std/internal@1.0.12": {
       "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
     },
-    "@vanice/types@0.2.48": {
-      "integrity": "994c1258f0eb274eb160527f4b936a5bb0ddd475f8e2aec4d6505d718e18d06d",
+    "@vanice/types@0.3.0": {
+      "integrity": "f48afa58903a237ef7e1a2ff3ae70593488688d8533a8bd29be4855f898ed21c",
       "dependencies": [
         "jsr:@noble/ed25519",
         "jsr:@noble/hashes@^1.8.0",
         "jsr:@noble/secp256k1",
         "jsr:@scure/bip32",
-        "jsr:@scure/bip39",
-        "npm:@cfworker/json-schema",
-        "npm:ts-blank-space"
+        "jsr:@scure/bip39"
       ]
     }
   },
@@ -93,7 +91,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
-      "jsr:@vanice/types@~0.2.48",
+      "jsr:@vanice/types@0.3",
       "npm:@cfworker/json-schema@^4.1.1",
       "npm:ts-blank-space@0.7"
     ]
