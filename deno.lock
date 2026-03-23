@@ -13,8 +13,7 @@
     "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.12",
     "jsr:@vanice/types@0.3": "0.3.0",
-    "npm:@cfworker/json-schema@^4.1.1": "4.1.1",
-    "npm:ts-blank-space@0.7": "0.7.0"
+    "npm:@cfworker/json-schema@^4.1.1": "4.1.1"
   },
   "jsr": {
     "@noble/curves@2.0.1": {
@@ -76,24 +75,19 @@
   "npm": {
     "@cfworker/json-schema@4.1.1": {
       "integrity": "sha512-gAmrUZSGtKc3AiBL71iNWxDsyUC5uMaKKGdvzYsBoTW/xi42JQHl7eKV2OYzCUqvc+D2RCcf7EXY2iCyFIk6og=="
-    },
-    "ts-blank-space@0.7.0": {
-      "integrity": "sha512-1D9ytD3K9QGGWJWFslEeQFvIwiOlj8rS3s+WA45DAHxqtvnyc+vzg2C8OLjoOyQKMgLrzndEcR5TNWsVC4daLQ==",
-      "dependencies": [
-        "typescript"
-      ]
-    },
-    "typescript@5.9.2": {
-      "integrity": "sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==",
-      "bin": true
     }
+  },
+  "remote": {
+    "https://deno.land/x/denoflate@1.2.1/mod.ts": "f5628e44b80b3d80ed525afa2ba0f12408e3849db817d47a883b801f9ce69dd6",
+    "https://deno.land/x/denoflate@1.2.1/pkg/denoflate.js": "b9f9ad9457d3f12f28b1fb35c555f57443427f74decb403113d67364e4f2caf4",
+    "https://deno.land/x/denoflate@1.2.1/pkg/denoflate_bg.wasm.js": "d581956245407a2115a3d7e8d85a9641c032940a8e810acbd59ca86afd34d44d",
+    "https://deno.land/x/esbuild@v0.27.4/mod.js": "be3e4588051fa0a5b30ada9205ac42155e6c72c1abca04b1293036e7a0a084be"
   },
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
       "jsr:@vanice/types@0.3",
-      "npm:@cfworker/json-schema@^4.1.1",
-      "npm:ts-blank-space@0.7"
+      "npm:@cfworker/json-schema@^4.1.1"
     ]
   }
 }
