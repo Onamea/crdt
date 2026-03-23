@@ -51,6 +51,7 @@ Deno.test("schema with unknown keywords validates anything", async () => {
   assert(await validate("body", '```json\n{ "field": 23, "g": "S" }\n```'))
 })
 
+/*
 Deno.test("typescript code block", async () => {
   assert(await validate("body", "```typescript\n(body: string): boolean => body !== undefined\n```"))
 })
@@ -58,3 +59,4 @@ Deno.test("typescript code block", async () => {
 Deno.test("typescript code block false", async () => {
   assertFalse(await validate("body", "```typescript\n(body: string): boolean => body === undefined\n```"))
 })
+*/

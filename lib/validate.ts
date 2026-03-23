@@ -1,6 +1,6 @@
 import { runInSandbox } from "./sandbox.ts"
 import { Validator, type Schema } from "@cfworker/json-schema"
-import tsBlankSpace from "ts-blank-space"
+//import tsBlankSpace from "ts-blank-space"
 import type { Identity } from "../Identity.ts"
 import type { ValidateOperation } from "../Operation.ts"
 
@@ -11,7 +11,7 @@ type Code = string
 const languages = [
   { canonical: "JSON", aliases: [] },
   { canonical: "JavaScript", aliases: ["js"] },
-  { canonical: "TypeScript", aliases: ["ts"] }
+  //{ canonical: "TypeScript", aliases: ["ts"] }
 ] as const
 type Language = (typeof languages)[number]["canonical"]
 
@@ -49,7 +49,7 @@ const evaluateJavaScript = (code: JavaScriptCode, body: string): Promise<boolean
   return runInSandbox(code, body)
 }
 
-const stripTypes = (code: Code): JavaScriptCode => tsBlankSpace(code)
+//const stripTypes = (code: Code): JavaScriptCode => tsBlankSpace(code)
 
 const validateJsonSchema = (schema: JSONSchema, body: string): boolean => {
   let parsedSchema: Schema
@@ -74,8 +74,10 @@ export const validate = async (body: Exclude<Identity["body"], undefined>, logic
       return validateJsonSchema(code, body)
     case "JavaScript":
       return await evaluateJavaScript(code, body)
+    /*
     case "TypeScript":
       return await evaluateJavaScript(stripTypes(code), body)
+    */
     default:
       throw new Error(`Unsupported validation language: ${ language }`)
   }
