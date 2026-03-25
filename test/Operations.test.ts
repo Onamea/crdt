@@ -70,12 +70,45 @@ Deno.test("relations", async () => {
   const relateOperation2 = await createRelateOperation(nameKey, relateOperation1.hash, relationId2)
   const operations = [createOperation, relateOperation1, relateOperation2]!
   const item = await buildItemFromOperations(operations, nameKey, true)
-  assertEquals(item.relations, [relationId1, relationId2]!)
+  assertEquals(item.relations?.map(relation => relation.id), [relationId1, relationId2]!)
 
   const unrelateOperation = await createUnrelateOperation(nameKey, relateOperation1.hash)
   const operations1 = [createOperation, relateOperation1, relateOperation2, unrelateOperation]
   const item1 = await buildItemFromOperations(operations1, nameKey, true)
-  assertEquals(item1.relations, [relationId2]!)
+  assertEquals(item1.relations?.map(relation => relation.id), [relationId2]!)
+})
+
+Deno.test("deeper relations", async () => {
+
+  // Inline names and keys from mockData
+  const id1 = toNameKey(mockData[1]!.name, mockData[1]!.primaryKey)
+  const id2 = toNameKey(mockData[2]!.name, mockData[2]!.primaryKey)
+  const id3 = toNameKey(mockData[3]!.name, mockData[3]!.primaryKey)
+
+  // Operations
+  const createOperation1 = await createCreateOperation(id1)
+  const createOperation2 = await createCreateOperation(id2)
+  const createOperation3 = await createCreateOperation(id3)
+
+  const relateOperation1to2 = await createRelateOperation(id1, createOperation1.hash, id2)
+  const relateOperation2to3 = await createRelateOperation(id2, createOperation2.hash, id3)
+
+  const operations = [createOperation1, createOperation2, createOperation3, relateOperation2to3, relateOperation1to2]
+  const item1 = await buildItemFromOperations(operations, id1, true)
+
+  // 1 should have 2 as relation
+  assertEquals(item1.relations?.length, 1)
+  const item2 = item1.relations?.[0]
+  assertEquals(item2?.id, id2)
+
+  // 2 should have 3 as relation
+  assertEquals(item2?.relations?.length, 1)
+  const item3 = item2?.relations?.[0]
+  assertEquals(item3?.id, id3)
+
+  // 3 should have no relations
+  console.log(item3?.relations)
+  assertEquals(item3?.relations, undefined)
 })
 
 Deno.test("REVERT operations", async () => {

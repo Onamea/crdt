@@ -17,7 +17,8 @@ import {
   isRelateOperation, 
   isUnrelateOperation, 
   isRevertOperation, 
-  isValidateOperation
+  isValidateOperation,
+  createCreateOperation
 } from "./Operation.ts"
 import { parseNameKey } from "@vanice/types"
 import type { Id, Identity, Item } from "./Identity.ts"
@@ -142,7 +143,7 @@ const getTombstoneFromTree = (tree: OperationTree): Identity["tombstone"] => {
   return deleteOperation !== undefined
 }
 
-const getRelationsFromTree = (tree: OperationTree): Identity["relations"] => {
+const getRelationsFromTree = (tree: OperationTree): Id[] => {
   const operations = flattenOperationTree(tree)
   const nonRevertedOperations = filterRevertedOperations(operations)
   const relateOperations = nonRevertedOperations.filter(isRelateOperation)
@@ -175,13 +176,31 @@ const getReferentsFromTree = (tree: OperationTree): Identity["referents"] => {
   return nonDenouncedVouchOperations.map(({ referent }) => referent)
 }
 
+export const buildItemFromId = async (id: Id): Promise<Item> => {
+  const createOperation = await createCreateOperation(id)
+  return await buildItemFromOperations([createOperation], id)
+}
+
+const buildItemsFromRelationIds = async (operations: Operations, relationIds: Id[]): Promise<Item[]> => {
+  return await Promise.all(
+    relationIds.map(async relationId => {
+      try {
+        return await buildItemFromOperations(operations, relationId, true)
+      } catch (_) {
+        return await buildItemFromId(relationId)
+      }
+    })
+  )
+}
+
 export const buildItemFromOperations = async (operations: Operations, id: Id, buildRelations = false): Promise<Item> => {
   const uniqueOperations = filterDuplicateOperations(operations)
   const itemOperations = filterOperationsById(uniqueOperations, id)
   const { tree } = buildOperationTree(itemOperations)
   const body = await getBodyFromTree(tree)
   const tombstone = getTombstoneFromTree(tree)
-  const relations = buildRelations ? getRelationsFromTree(tree) : undefined
+  const relationIds = buildRelations ? getRelationsFromTree(tree) : []
+  const relations = relationIds.length > 0 ? await buildItemsFromRelationIds(operations, relationIds) : undefined 
   return { id, body, tombstone, operations: itemOperations, relations }
 }
 
@@ -189,7 +208,7 @@ export const buildIdentityFromOperations = async (operations: Operations, id: Id
   
   const uniqueOperations = filterDuplicateOperations(operations)
   const identityOperations = filterOperationsById(uniqueOperations, id)
-  const item = await buildItemFromOperations(identityOperations, id, buildRelations)
+  const item = await buildItemFromOperations(operations, id, buildRelations)
 
   const { tree } = buildOperationTree(identityOperations)
 

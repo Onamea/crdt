@@ -85,7 +85,7 @@ export type Item = {
   body: Body
   tombstone: boolean
   operations: Operations
-  relations?: Id[]
+  relations?: Item[]
 }
 
 export type ItemWithMessages = Item & WithMessages
