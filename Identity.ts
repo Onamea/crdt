@@ -115,13 +115,13 @@ export const isBody = (value: unknown): value is Body => {
 
 export const isItem = (value: unknown): value is Item => {
   if (isObject(value) === false) return false
-  const { id, body, tombstone, relations, operations } = value
+  const { id, body, tombstone, operations, relations } = value
   return (
     isId(id) &&
     isBody(body) &&
     isBoolean(tombstone) &&
     areOperations(operations) &&
-    relations === undefined || areIds(relations)
+    (relations === undefined || (Array.isArray(relations) && relations.every(isItem)))
   )
 }
 

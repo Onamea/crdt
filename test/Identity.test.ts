@@ -20,6 +20,25 @@ Deno.test("isItem", async () => {
   }))
 })
 
+Deno.test("isItem with relations", async () => {
+  assertFalse(isItem({}))
+  const createOperation = await createCreateOperation("123")
+  assert(isItem({ 
+    id: "123",
+    body: "text",
+    tombstone: false,
+    operations: [createOperation],
+    relations: [
+      {
+        id: "456",
+        body: "related item",
+        tombstone: false,
+        operations: [createOperation]
+      }
+    ]
+  }))
+})
+
 Deno.test("isIdentifier", () => {
   assert(isIdentifier("Alice⏰⚡️💪"))
   assert(isIdentifier("Ab@5M46V7KKKGT8H3DPBRG7SB9Q19YRWPD6XRWWV3GGYPNUD71MK02"))
