@@ -1,6 +1,7 @@
 import { type Hash, isHash, messageToHash } from "@vanice/types"
 import { toRawOperation } from "./RawOperation.ts"
-import { type IdentityKey, type IdentityKeyDomain, type Id, type Body, isId, isIdentityKey } from "./Identity.ts"
+import { type IdentityKey, type IdentityKeyDomain, isIdentityKey } from "./Identifier.ts"
+import { type Id, type Body, isId } from "./Identity.ts"
 import isObject from "./lib/utils/isObject.ts"
 import isString from "./lib/utils/isString.ts"
 

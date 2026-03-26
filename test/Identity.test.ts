@@ -5,7 +5,7 @@ import identityMock from "./identity.mock.json" with { type: "json" }
 import mockData from "./data.mock.ts"
 import { createCreateOperation, createSetOperation } from "../Operation.ts"
 import { buildIdentityFromOperations } from "../Operations.ts"
-import { isIdentity, isIdentityWithMessages, isItem, isIdentifier, validateIdentity, getUnsignedOperations } from "../Identity.ts"
+import { isIdentity, isIdentityWithMessages, isItem, validateIdentity, getUnsignedOperations } from "../Identity.ts"
 import { buildItemFromOperations } from "../Operations.ts"
 import { signOperation } from "../Message.ts"
 
@@ -39,10 +39,6 @@ Deno.test("isItem with relations", async () => {
   }))
 })
 
-Deno.test("isIdentifier", () => {
-  assert(isIdentifier("Alice⏰⚡️💪"))
-  assert(isIdentifier("Ab@5M46V7KKKGT8H3DPBRG7SB9Q19YRWPD6XRWWV3GGYPNUD71MK02"))
-})
 
 Deno.test("isIdentity, isIdentityWithMessages", () => {
   assertFalse(isIdentity({}))

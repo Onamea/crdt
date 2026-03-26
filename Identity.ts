@@ -1,24 +1,5 @@
-import { type PrimaryKey, isPrimaryKey, readCryptoNameFromPrimaryKey,  } from "@vanice/types"
-import { type Name, type FingerprintedName, isFingerprintedName, isName } from "@vanice/types"
-import { type NameKey, isNameKey, toNameKey, parseNameKey } from "@vanice/types"
-import { type FingerprintDisplay, isFingerprintDisplay, parseFingerprintedName, fingerprintedNameBelongsToPrimaryKey } from "@vanice/types"
-import { 
-  type PublicKeyDisplay, 
-  type PrivateKeyDisplay, 
-  type MnemonicDisplay, 
-  type MnemonicPassphrase,
-  type CryptoName, 
-  type KeyPairDisplay,
-  isPublicKeyDisplayByCryptoName,
-  isMnemonicDisplay,
-  keyPairFromMnemonic,
-  fromMnemonicDisplay,
-  keyPairFromPrivateKey,
-  publicKeyToPrimaryKey,
-  displayKeyPair,
-  cryptoNames,
-  fromHex
-} from "@vanice/types"
+import type { PrimaryKey, Name, FingerprintedName, NameKey, FingerprintDisplay, PublicKeyDisplay, PrivateKeyDisplay, MnemonicDisplay, MnemonicPassphrase, CryptoName, KeyPairDisplay } from "@vanice/types"
+import { isPrimaryKey, readCryptoNameFromPrimaryKey, isFingerprintedName, isName, isNameKey, toNameKey, parseNameKey, isFingerprintDisplay, parseFingerprintedName, fingerprintedNameBelongsToPrimaryKey, isPublicKeyDisplayByCryptoName, isMnemonicDisplay, keyPairFromMnemonic, fromMnemonicDisplay, keyPairFromPrivateKey, publicKeyToPrimaryKey, displayKeyPair, cryptoNames, fromHex } from "@vanice/types"
 import type { Operations } from "./Operation.ts"
 import { areOperations, buildItemFromOperations, buildIdentityFromOperations } from "./Operations.ts"
 import { isMessage, type Messages } from "./Message.ts"
@@ -28,52 +9,8 @@ import isArray from "./lib/utils/isArray.ts"
 import isString from "./lib/utils/isString.ts"
 import isBoolean from "./lib/utils/isBoolean.ts"
 import { toRawOperation } from "./RawOperation.ts"
-import type { Flavor } from "./lib/utils/Flavor.ts"
-
-export type IdentityKey = NameKey | PrimaryKey | PublicKeyDisplay
-export type IdentityKeys = IdentityKey[]
-export type IdentityKeyDomain = Flavor<string, "IdentityKeyDomain">
-export type SubKey = {
-  subKey: IdentityKey
-  domain?: IdentityKeyDomain
-}
-export type SubKeys = SubKey[]
-export type Identifier = IdentityKey | FingerprintedName
-
-export const isIdentityKey = (value: unknown): value is IdentityKey => {
-  return (
-    isNameKey(value) || 
-    isPrimaryKey(value) || 
-    isPublicKeyDisplayByCryptoName("Ed25519", value) ||
-    isPublicKeyDisplayByCryptoName("ECDSA", value) ||
-    isPublicKeyDisplayByCryptoName("Schnorr", value)
-  )
-}
-
-export const areIdentityKeys = (values: unknown): values is IdentityKeys => {
-  return isArray(values) && values.every(isIdentityKey)
-}
-
-export const isIdentityKeyDomain = (value: unknown): value is IdentityKeyDomain => {
-  return isString(value) && value.trim().length > 0
-}
-
-export const isSubKey = (value: unknown): value is SubKey => {
-  if (isObject(value) === false) return false
-  const { subKey, domain } = value
-  return (
-    isIdentityKey(subKey) &&
-    (domain === undefined || isIdentityKeyDomain(domain))
-  )
-}
-
-export const areSubKeys = (values: unknown): values is SubKeys => {
-  return isArray(values) && values.every(isSubKey)
-}
-
-export const isIdentifier = (value: unknown): value is Identifier => {
-  return isIdentityKey(value) || isFingerprintedName(value)
-}
+import type { IdentityKeys, SubKeys, Identifier } from "./Identifier.ts"
+import { areIdentityKeys, areSubKeys } from "./Identifier.ts"
 
 export type Id = string
 export type Body = string | undefined

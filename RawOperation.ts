@@ -1,6 +1,7 @@
 import { isNameKey } from "@vanice/types"
 import { isHash } from "@vanice/types"
-import { isId, isIdentityKey, isIdentityKeyDomain } from "./Identity.ts"
+import { isIdentityKey, isIdentityKeyDomain } from "./Identifier.ts"
+import { isId } from "./Identity.ts"
 import type { OperationWithoutHash, PreviousHashOperation, Operation, OperationType, SetOperation, GrantOperation, VouchOperation, RelateOperation, ValidateOperation } from "./Operation.ts"
 import { createCreateOperation, createDeleteOperation, createDenounceOperation, createGrantOperation, createRelateOperation, createRevertOperation, createRevokeOperation, createSetOperation, createUnrelateOperation, createValidateOperation, createVouchOperation } from "./Operation.ts"
 import isString from "./lib/utils/isString.ts"
