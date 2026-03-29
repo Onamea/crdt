@@ -9,7 +9,7 @@ import isArray from "./lib/utils/isArray.ts"
 import isString from "./lib/utils/isString.ts"
 import isBoolean from "./lib/utils/isBoolean.ts"
 import { toRawOperation } from "./RawOperation.ts"
-import type { IdentityKeys, SubKeys, Identifier } from "./Identifier.ts"
+import type { Identifier, IdentityKeys, SubKeys } from "./Identifier.ts"
 import { areIdentityKeys, areSubKeys } from "./Identifier.ts"
 
 export type Id = string
@@ -120,7 +120,7 @@ export const getUnsignedOperations = (item: ItemWithMessages | IdentityWithMessa
   return operations.filter(operation => rawOperations.has(toRawOperation(operation)) === false)
 }
 
-export const identify = async (id: NameKey | PathStringified | FingerprintedName, privateKeyOrMnemonic: PrivateKeyDisplay | MnemonicDisplay, mnemonicPassphrase?: MnemonicPassphrase): Promise<[Identifier, KeyPairDisplay]> => {
+export const identify = async (id: Identifier | PathStringified, privateKeyOrMnemonic: PrivateKeyDisplay | MnemonicDisplay, mnemonicPassphrase?: MnemonicPassphrase): Promise<[FingerprintedName | NameKey, KeyPairDisplay]> => {
 
   const getKeyPair = (cryptoName: CryptoName) => {
     return isMnemonicDisplay(privateKeyOrMnemonic) ? 
@@ -128,8 +128,8 @@ export const identify = async (id: NameKey | PathStringified | FingerprintedName
       keyPairFromPrivateKey(cryptoName, fromHex(privateKeyOrMnemonic))
   }
 
-  const tryFindingIdentity = async (id: FingerprintedName): Promise<[Identifier, KeyPairDisplay]> => {
-    const results: [Identifier, KeyPairDisplay][] = []
+  const tryFindingIdentity = async (id: FingerprintedName): Promise<[NameKey, KeyPairDisplay]> => {
+    const results: [NameKey, KeyPairDisplay][] = []
     for (const cryptoName of cryptoNames) {
       try {
         const keyPair = getKeyPair(cryptoName)
@@ -146,7 +146,7 @@ export const identify = async (id: NameKey | PathStringified | FingerprintedName
     } else if (results.length > 1) {
       throw new Error(`Supplied id: ${ id } is ambiguous and matches multiple identities (on different CryptoNames). Use a longer Fingerprint.`)
     } else {
-      return results[0]!
+      return results[0]
     }
   }
 
@@ -166,7 +166,7 @@ export const identify = async (id: NameKey | PathStringified | FingerprintedName
     if (path.elements[0]?.type === "IDENTITY") {
       if (path.elements[1]?.type === "SUBKEY") {
         const [, keyPair] = await tryFindingIdentity(path.elements[1].id as FingerprintedName)
-        return [path.elements[0].id, keyPair] as const
+        return [path.elements[0].id as FingerprintedName, keyPair] as const
       } else {
         return await tryFindingIdentity(path.elements[0].id as FingerprintedName)
       }
