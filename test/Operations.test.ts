@@ -4,8 +4,8 @@ import { toNameKey } from "@vanice/types"
 import { createCreateOperation, createDeleteOperation, createDenounceOperation, createGrantOperation, createRevokeOperation, createRelateOperation, createRevertOperation, createSetOperation, createUnrelateOperation, createVouchOperation, createValidateOperation } from "../Operation.ts"
 import { buildIdentityFromOperations, buildItemFromOperations, getLatestHashFromOperations, getPreviousHash, operationsIncludeOperation } from "../Operations.ts"
 
-const primaryKey = mockData[0]!.primaryKey
-const name = mockData[0]!.name
+const primaryKey = mockData[0].primaryKey
+const name = mockData[0].name
 const nameKey = toNameKey(name, primaryKey)
 const createOperation = await createCreateOperation(nameKey)
 const setOperation = await createSetOperation(nameKey, createOperation.hash, "body")
@@ -36,8 +36,8 @@ Deno.test("validate", async () => {
 })
 
 Deno.test("subKeys", async () => {
-  const identityKey = mockData[1]!.primaryKey
-  const identityKey2 = mockData[2]!.primaryKey
+  const identityKey = mockData[1].primaryKey
+  const identityKey2 = mockData[2].primaryKey
   const grantOperation = await createGrantOperation(nameKey, createOperation.hash, identityKey)
   const grantOperation2 = await createGrantOperation(nameKey, createOperation.hash, identityKey2, "example.com")
   const operations = [createOperation, grantOperation, grantOperation2]
@@ -51,7 +51,7 @@ Deno.test("subKeys", async () => {
 })
 
 Deno.test("referents", async () => {
-  const identityKey = mockData[1]!.primaryKey
+  const identityKey = mockData[1].primaryKey
   const vouchOperation = await createVouchOperation(nameKey, createOperation.hash, identityKey)
   const operations = [createOperation, vouchOperation]
   const identity = await buildIdentityFromOperations(operations, nameKey)
@@ -64,26 +64,38 @@ Deno.test("referents", async () => {
 })
 
 Deno.test("relations", async () => {
-  const relationId1 = toNameKey(mockData[2]!.name, mockData[2]!.primaryKey)
-  const relationId2 = toNameKey(mockData[3]!.name, mockData[3]!.primaryKey)
+  const relationId1 = toNameKey(mockData[2].name, mockData[2].primaryKey)
+  const relationId2 = toNameKey(mockData[3].name, mockData[3].primaryKey)
   const relateOperation1 = await createRelateOperation(nameKey, createOperation.hash, relationId1)
   const relateOperation2 = await createRelateOperation(nameKey, relateOperation1.hash, relationId2)
-  const operations = [createOperation, relateOperation1, relateOperation2]!
+  const operations = [createOperation, relateOperation1, relateOperation2]
   const item = await buildItemFromOperations(operations, nameKey, true)
-  assertEquals(item.relations?.map(relation => relation.id), [relationId1, relationId2]!)
+  assertEquals(item.relations?.map(relation => relation.id), [relationId1, relationId2])
 
   const unrelateOperation = await createUnrelateOperation(nameKey, relateOperation1.hash)
   const operations1 = [createOperation, relateOperation1, relateOperation2, unrelateOperation]
   const item1 = await buildItemFromOperations(operations1, nameKey, true)
-  assertEquals(item1.relations?.map(relation => relation.id), [relationId2]!)
+  assertEquals(item1.relations?.map(relation => relation.id), [relationId2])
+})
+
+Deno.test("relation ordering", async () => {
+  const relationId1 = toNameKey(mockData[2].name, mockData[2].primaryKey)
+  const relationId2 = toNameKey(mockData[3].name, mockData[3].primaryKey)
+  const relationId3 = toNameKey(mockData[4].name, mockData[4].primaryKey)
+  const relateOperation1 = await createRelateOperation(nameKey, createOperation.hash, relationId1)
+  const relateOperation2 = await createRelateOperation(nameKey, createOperation.hash, relationId2)
+  const relateOperation3 = await createRelateOperation(nameKey, relateOperation1.hash, relationId3)
+  const operations = [createOperation, relateOperation1, relateOperation2, relateOperation3]
+  const item = await buildItemFromOperations(operations, nameKey, true)
+  assertEquals(item.relations?.map(relation => relation.id), [relationId1, relationId2, relationId3])
 })
 
 Deno.test("deeper relations", async () => {
 
   // Inline names and keys from mockData
-  const id1 = toNameKey(mockData[1]!.name, mockData[1]!.primaryKey)
-  const id2 = toNameKey(mockData[2]!.name, mockData[2]!.primaryKey)
-  const id3 = toNameKey(mockData[3]!.name, mockData[3]!.primaryKey)
+  const id1 = toNameKey(mockData[1].name, mockData[1].primaryKey)
+  const id2 = toNameKey(mockData[2].name, mockData[2].primaryKey)
+  const id3 = toNameKey(mockData[3].name, mockData[3].primaryKey)
 
   // Operations
   const createOperation1 = await createCreateOperation(id1)
@@ -143,7 +155,7 @@ Deno.test("getPreviousHash RELATE", async () => {
 })
 
 Deno.test("getPreviousHash REVOKE", async () => {
-  const grantOperation = await createGrantOperation(nameKey, createOperation.hash, mockData[1]!.primaryKey)
+  const grantOperation = await createGrantOperation(nameKey, createOperation.hash, mockData[1].primaryKey)
   const operations = [createOperation, grantOperation]
   const hash = getPreviousHash(operations, "REVOKE", grantOperation.hash)
   assertEquals(hash, grantOperation.hash)
