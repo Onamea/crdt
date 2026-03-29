@@ -65,12 +65,12 @@ export const buildOperationTree = (operations: Operations): { tree: OperationTre
 
 export const flattenOperationTree = (operationTree: OperationTree): Operations => {
   const result: Operations = []
-  const stack: OperationTree[] = [operationTree]
-  while (stack.length > 0) {
-    const [operation, childTrees] = stack.pop()!
+  const queue: OperationTree[] = [operationTree]
+  while (queue.length > 0) {
+    const [operation, childTrees] = queue.shift()!
     result.push(operation)
-    for (let i = childTrees.length - 1; i >= 0; i--) {
-      stack.push(childTrees[i]!)
+    for (let i = 0; i < childTrees.length; i++) {
+      queue.push(childTrees[i])
     }
   }
   return result
