@@ -200,7 +200,7 @@ export const buildItemFromOperations = async (operations: Operations, id: Id, bu
   const body = await getBodyFromTree(tree)
   const tombstone = getTombstoneFromTree(tree)
   const relationIds = buildRelations ? getRelationsFromTree(tree) : []
-  const relations = relationIds.length > 0 ? await buildItemsFromRelationIds(operations, relationIds) : undefined 
+  const relations = relationIds.length > 0 ? await buildItemsFromRelationIds(uniqueOperations, relationIds) : undefined 
   return { id, body, tombstone, operations: itemOperations, relations }
 }
 
