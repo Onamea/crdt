@@ -25,10 +25,11 @@ Deno.test("parseOperation", async () => {
   const parsedDeleteOperation = await parseRawOperation(rawDeleteOperation)
   assertEquals(parsedDeleteOperation, { id, hash: deleteOperation.hash, previousHash: setOperation.hash, type: "DELETE" })
 
-  const grantOperation = await createGrantOperation(id, setOperation.hash, mockData[1]!.primaryKey, "example.com")
+  const subKey = toNameKey(mockData[1].name, mockData[1].primaryKey)
+  const grantOperation = await createGrantOperation(id, setOperation.hash, subKey, "example.com")
   const rawGrantOperation = toRawOperation(grantOperation)
   const parsedGrantOperation = await parseRawOperation(rawGrantOperation)
-  assertEquals(parsedGrantOperation, { id, hash: grantOperation.hash, previousHash: setOperation.hash, type: "GRANT", subKey: mockData[1]!.primaryKey, domain: "example.com" })
+  assertEquals(parsedGrantOperation, { id, hash: grantOperation.hash, previousHash: setOperation.hash, type: "GRANT", subKey, domain: "example.com" })
 })
 
 Deno.test("parseOperation with OperationName as Name", async () => {

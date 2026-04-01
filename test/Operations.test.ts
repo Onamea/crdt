@@ -36,8 +36,8 @@ Deno.test("validate", async () => {
 })
 
 Deno.test("subKeys", async () => {
-  const identityKey = mockData[1].primaryKey
-  const identityKey2 = mockData[2].primaryKey
+  const identityKey = toNameKey(mockData[1].name, mockData[1].primaryKey)
+  const identityKey2 = toNameKey(mockData[2].name, mockData[2].primaryKey)
   const grantOperation = await createGrantOperation(nameKey, createOperation.hash, identityKey)
   const grantOperation2 = await createGrantOperation(nameKey, createOperation.hash, identityKey2, "example.com")
   const operations = [createOperation, grantOperation, grantOperation2]
@@ -51,11 +51,11 @@ Deno.test("subKeys", async () => {
 })
 
 Deno.test("referents", async () => {
-  const identityKey = mockData[1].primaryKey
-  const vouchOperation = await createVouchOperation(nameKey, createOperation.hash, identityKey)
+  const referent = toNameKey(mockData[0].name, mockData[0].primaryKey)
+  const vouchOperation = await createVouchOperation(nameKey, createOperation.hash, referent)
   const operations = [createOperation, vouchOperation]
   const identity = await buildIdentityFromOperations(operations, nameKey)
-  assertEquals(identity.referents, [identityKey])
+  assertEquals(identity.referents, [referent])
 
   const denounceOperation = await createDenounceOperation(nameKey, vouchOperation.hash)
   const operations2 = [createOperation, vouchOperation, denounceOperation]
@@ -155,7 +155,8 @@ Deno.test("getPreviousHash RELATE", async () => {
 })
 
 Deno.test("getPreviousHash REVOKE", async () => {
-  const grantOperation = await createGrantOperation(nameKey, createOperation.hash, mockData[1].primaryKey)
+  const subKey = toNameKey(mockData[1].name, mockData[1].primaryKey)
+  const grantOperation = await createGrantOperation(nameKey, createOperation.hash, subKey)
   const operations = [createOperation, grantOperation]
   const hash = getPreviousHash(operations, "REVOKE", grantOperation.hash)
   assertEquals(hash, grantOperation.hash)

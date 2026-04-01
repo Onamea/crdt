@@ -18,12 +18,14 @@ import {
 export type IdentityKey = NameKey | PrimaryKey | PublicKeyDisplay
 export type IdentityKeys = IdentityKey[]
 export type IdentityKeyDomain = Flavor<string, "IdentityKeyDomain">
+export type Identifier = IdentityKey | FingerprintedName
+
+export type SubKeyDomain = Flavor<string, "SubKeyDomain">
 export type SubKey = {
-  subKey: IdentityKey
-  domain?: IdentityKeyDomain
+  subKey: NameKey
+  domain?: SubKeyDomain
 }
 export type SubKeys = SubKey[]
-export type Identifier = IdentityKey | FingerprintedName
 
 export const isIdentityKey = (value: unknown): value is IdentityKey => {
   return (
@@ -43,11 +45,15 @@ export const isIdentityKeyDomain = (value: unknown): value is IdentityKeyDomain 
   return isString(value) && value.trim().length > 0
 }
 
+export const isSubKeyDomain = (value: unknown): value is SubKeyDomain => {
+  return isString(value) && value.trim().length > 0
+}
+
 export const isSubKey = (value: unknown): value is SubKey => {
   if (isObject(value) === false) return false
   const { subKey, domain } = value
   return (
-    isIdentityKey(subKey) &&
+    isNameKey(subKey) &&
     (domain === undefined || isIdentityKeyDomain(domain))
   )
 }

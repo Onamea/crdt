@@ -1,6 +1,6 @@
-import { type Hash, isHash, messageToHash } from "@vanice/types"
+import { type Hash, type NameKey, isHash, messageToHash } from "@vanice/types"
 import { toRawOperation } from "./RawOperation.ts"
-import { type IdentityKey, type IdentityKeyDomain, isIdentityKey } from "./Identifier.ts"
+import { isIdentityKey, type SubKeyDomain } from "./Identifier.ts"
 import { type Id, type Body, isId } from "./Identity.ts"
 import isObject from "./lib/utils/isObject.ts"
 import isString from "./lib/utils/isString.ts"
@@ -33,15 +33,15 @@ export type DeleteOperation = PreviousHashOperation & {
 }
 export type GrantOperation = PreviousHashOperation & {
   type: "GRANT"
-  subKey: IdentityKey
-  domain?: IdentityKeyDomain
+  subKey: NameKey
+  domain?: SubKeyDomain
 }
 export type RevokeOperation = PreviousHashOperation & {
   type: "REVOKE"
 }
 export type VouchOperation = PreviousHashOperation & {  
   type: "VOUCH"
-  referent: IdentityKey
+  referent: NameKey
 }
 export type DenounceOperation = PreviousHashOperation & {  
   type: "DENOUNCE"
@@ -167,7 +167,7 @@ export const createValidateOperation = async (id: Id, previousHash: Hash, logic:
   return { hash, ...operation }
 }
 
-export const createGrantOperation = async (id: Id, previousHash: Hash, subKey: IdentityKey, domain?: IdentityKeyDomain): Promise<GrantOperation> => {
+export const createGrantOperation = async (id: Id, previousHash: Hash, subKey: NameKey, domain?: SubKeyDomain): Promise<GrantOperation> => {
   const operation = { id, previousHash, type: "GRANT", subKey, domain } as const
   const hash = await hashOperation(operation)
   return { hash, ...operation }
@@ -179,7 +179,7 @@ export const createRevokeOperation = async (id: Id, previousHash: Hash): Promise
   return { hash, ...operation }
 }
 
-export const createVouchOperation = async (id: Id, previousHash: Hash, referent: IdentityKey): Promise<VouchOperation> => {
+export const createVouchOperation = async (id: Id, previousHash: Hash, referent: NameKey): Promise<VouchOperation> => {
   const operation = { id, previousHash, type: "VOUCH", referent } as const
   const hash = await hashOperation(operation)
   return { hash, ...operation }

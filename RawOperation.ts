@@ -1,6 +1,6 @@
 import { isNameKey } from "@vanice/types"
 import { isHash } from "@vanice/types"
-import { isIdentityKey, isIdentityKeyDomain } from "./Identifier.ts"
+import { isSubKeyDomain } from "./Identifier.ts"
 import { isId } from "./Identity.ts"
 import type { OperationWithoutHash, PreviousHashOperation, Operation, OperationType, SetOperation, GrantOperation, VouchOperation, RelateOperation, ValidateOperation } from "./Operation.ts"
 import { createCreateOperation, createDeleteOperation, createDenounceOperation, createGrantOperation, createRelateOperation, createRevertOperation, createRevokeOperation, createSetOperation, createUnrelateOperation, createValidateOperation, createVouchOperation } from "./Operation.ts"
@@ -49,10 +49,10 @@ export const parseRawOperation = async (rawOperation: RawOperation): Promise<Ope
   }
   if (operationType === 4) {
     const [subKey, domain] = rest
-    if (subKey === undefined || isIdentityKey(subKey) === false) {
-      throw new Error("Invalid GRANT Operation: Missing / invalid subKey")
+    if (subKey === undefined || isNameKey(subKey) === false) {
+      throw new Error("Invalid GRANT Operation: Missing / invalid SubKey")
     }
-    if (domain !== undefined && isIdentityKeyDomain(domain) === false) {
+    if (domain !== undefined && isSubKeyDomain(domain) === false) {
       throw new Error("Invalid GRANT Operation: Invalid domain")
     }
     return await createGrantOperation(id, previousHash, subKey, domain)
