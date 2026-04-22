@@ -8,7 +8,7 @@ import { isNameKey, parseNameKey } from "@vanice/types"
 import { type PrimaryKey, isPrimaryKey, publicKeyToPrimaryKey } from "@vanice/types"
 import { isPublicKeyDisplay } from "@vanice/types"
 import { parseRawOperation, toRawOperation, type RawOperation } from "./RawOperation.ts"
-import { isOwnable, type Operation } from "./Operation.ts"
+import { type Operation, isOwnable, validateOperation } from "./Operation.ts"
 import isObject from "./lib/utils/isObject.ts"
 import isString from "./lib/utils/isString.ts"
 import isNumber from "./lib/utils/isNumber.ts"
@@ -63,6 +63,7 @@ export const signMessage = async (message: UnsignedMessage, keyPair: KeyPair, da
 }
 
 export const signOperation = async (operation: Operation, keyPair: KeyPair, datetime?: Datetime): Promise<Message> => {
+  if (await validateOperation(operation) === false) throw new Error("Invalid Operation")
   const unsignedMessage = createUnsignedMessage(operation)
   return await signMessage(unsignedMessage, keyPair, datetime)
 }

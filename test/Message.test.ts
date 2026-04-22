@@ -1,4 +1,4 @@
-import { assert, assertFalse } from "@std/assert"
+import { assert, assertFalse, assertRejects } from "@std/assert"
 import { toNameKey } from "@vanice/types"
 import mockData from "./data.mock.ts"
 import { createCreateOperation } from "../Operation.ts"
@@ -35,6 +35,31 @@ Deno.test("signOperation, verify", async () => {
   }
   const createOperation = await createCreateOperation(id)
   assert(await verifyMessage(await signOperation(createOperation, keyPair)))
+})
+
+Deno.test("signOperation, invalid structure", async () => {
+  const keyPair = {
+    cryptoName: mockData[3]!.cryptoName,
+    publicKey: mockData[3]!.publicKey,
+    privateKey: mockData[3]!.privateKey
+  }
+  // deno-lint-ignore no-explicit-any
+  await assertRejects(() => signOperation({ type: "CREATE" } as any, keyPair), Error, "Invalid Operation")
+})
+
+Deno.test("signOperation, incorrect hash", async () => {
+  const primaryKey = mockData[3]!.primaryKey
+  const name = mockData[3]!.name
+  const id = toNameKey(name, primaryKey)
+  const keyPair = {
+    cryptoName: mockData[3]!.cryptoName,
+    publicKey: mockData[3]!.publicKey,
+    privateKey: mockData[3]!.privateKey
+  }
+  const createOperation = await createCreateOperation(id)
+  const tampered = { ...createOperation, hash: createOperation.hash.slice(0, -1) + "0" }
+  // deno-lint-ignore no-explicit-any
+  await assertRejects(() => signOperation(tampered as any, keyPair), Error, "Invalid Operation")
 })
 
 Deno.test("isSignedByOwner", async () => {

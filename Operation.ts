@@ -209,6 +209,12 @@ export const createRevertOperation = async (id: Id, previousHash: Hash): Promise
   return { hash, ...operation }
 }
 
+export const validateOperation = async (operation: Operation): Promise<boolean> => {
+  if (isOperation(operation) === false) return false
+  const expectedHash = await hashOperation(operation)
+  return operation.hash === expectedHash
+}
+
 export const isOwnable = (operation: Operation): boolean => {
   const { id } = operation
   return isIdentityKey(id)
