@@ -1,5 +1,26 @@
-import type { PrimaryKey, Name, FingerprintedName, NameKey, FingerprintDisplay, PublicKeyDisplay, PrivateKeyDisplay, MnemonicDisplay, MnemonicPassphrase, CryptoName, KeyPairDisplay } from "@vanice/types"
-import { isPrimaryKey, readCryptoNameFromPrimaryKey, isFingerprintedName, isName, isNameKey, toNameKey, parseNameKey, isFingerprintDisplay, parseFingerprintedName, fingerprintedNameBelongsToPrimaryKey, isPublicKeyDisplayByCryptoName, isMnemonicDisplay, keyPairFromMnemonic, fromMnemonicDisplay, keyPairFromPrivateKey, publicKeyToPrimaryKey, displayKeyPair, cryptoNames, fromHex } from "@vanice/types"
+import type { PrimaryKey, Name, FingerprintedName, NameKey, FingerprintDisplay, PublicKeyDisplay, PrivateKeyDisplay, CryptoName, KeyPairDisplay, MnemonicDisplayWithPassphrase, MnemonicDisplay } from "@vanice/types"
+import { 
+  isPrimaryKey, 
+  readCryptoNameFromPrimaryKey, 
+  isFingerprintedName, 
+  isName, 
+  isNameKey, 
+  toNameKey, 
+  parseNameKey, 
+  isFingerprintDisplay, 
+  parseFingerprintedName, 
+  fingerprintedNameBelongsToPrimaryKey, 
+  isPublicKeyDisplayByCryptoName, 
+  keyPairFromMnemonic, 
+  keyPairFromPrivateKey, 
+  publicKeyToPrimaryKey, 
+  displayKeyPair, 
+  cryptoNames, 
+  fromHex, 
+  isMnemonicDisplayWithPassphrase, 
+  fromMnemonicDisplayWithPassphrase, 
+  isMnemonicDisplay
+} from "@vanice/types"
 import type { Operations } from "./Operation.ts"
 import { areOperations, buildItemFromOperations, buildIdentityFromOperations } from "./Operations.ts"
 import { isMessage, type Messages } from "./Message.ts"
@@ -120,11 +141,15 @@ export const getUnsignedOperations = (item: ItemWithMessages | IdentityWithMessa
   return operations.filter(operation => rawOperations.has(toRawOperation(operation)) === false)
 }
 
-export const identify = async (id: Identifier | PathStringified, privateKeyOrMnemonic: PrivateKeyDisplay | MnemonicDisplay, mnemonicPassphrase?: MnemonicPassphrase): Promise<[FingerprintedName | NameKey, KeyPairDisplay]> => {
+export const identify = async (id: Identifier | PathStringified, privateKeyOrMnemonic: PrivateKeyDisplay | MnemonicDisplay | MnemonicDisplayWithPassphrase): Promise<[FingerprintedName | NameKey, KeyPairDisplay]> => {
+
+  const splitMnemonicAndPassphrase = (mnemonicDisplayWithPassphrase: MnemonicDisplay | MnemonicDisplayWithPassphrase) => {
+    return fromMnemonicDisplayWithPassphrase(mnemonicDisplayWithPassphrase)
+  }
 
   const getKeyPair = (cryptoName: CryptoName) => {
-    return isMnemonicDisplay(privateKeyOrMnemonic) ? 
-      keyPairFromMnemonic(cryptoName, fromMnemonicDisplay(privateKeyOrMnemonic), mnemonicPassphrase) : 
+    return isMnemonicDisplayWithPassphrase(privateKeyOrMnemonic) || isMnemonicDisplay(privateKeyOrMnemonic) ? 
+      keyPairFromMnemonic(cryptoName, ...splitMnemonicAndPassphrase(privateKeyOrMnemonic)) : 
       keyPairFromPrivateKey(cryptoName, fromHex(privateKeyOrMnemonic))
   }
 
