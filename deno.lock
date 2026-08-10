@@ -7,12 +7,12 @@
     "jsr:@noble/hashes@2.0.1": "2.0.1",
     "jsr:@noble/hashes@^1.8.0": "1.8.0",
     "jsr:@noble/secp256k1@3": "3.0.0",
+    "jsr:@onamea/types@~0.3.7": "0.3.7",
     "jsr:@scure/base@2.0.0": "2.0.0",
     "jsr:@scure/bip32@^2.0.1": "2.0.1",
     "jsr:@scure/bip39@^2.0.1": "2.0.1",
     "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.12",
-    "jsr:@vanice/types@~0.3.7": "0.3.7",
     "npm:@cfworker/json-schema@^4.1.1": "4.1.1"
   },
   "jsr": {
@@ -33,6 +33,16 @@
     },
     "@noble/secp256k1@3.0.0": {
       "integrity": "8d1639a9c06fcffacf720d8319e8e996e9fbfbaf868324e4cec5dc56b2ade1b9"
+    },
+    "@onamea/types@0.3.7": {
+      "integrity": "c48c0f7a433e060e5b38ac8b6d89561ed6f48251dbe931b3d9b3edfd32b05f31",
+      "dependencies": [
+        "jsr:@noble/ed25519",
+        "jsr:@noble/hashes@^1.8.0",
+        "jsr:@noble/secp256k1",
+        "jsr:@scure/bip32",
+        "jsr:@scure/bip39"
+      ]
     },
     "@scure/base@2.0.0": {
       "integrity": "2828432e39fdfc6712ce2a3029c56621e293e38ac5aa02be8c5ead312836fe2f"
@@ -60,16 +70,6 @@
     },
     "@std/internal@1.0.12": {
       "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
-    },
-    "@vanice/types@0.3.7": {
-      "integrity": "4b11ef9560e22120eadaa255adc01457e8ad97e7f0fd445a285f699b84eb4b60",
-      "dependencies": [
-        "jsr:@noble/ed25519",
-        "jsr:@noble/hashes@^1.8.0",
-        "jsr:@noble/secp256k1",
-        "jsr:@scure/bip32",
-        "jsr:@scure/bip39"
-      ]
     }
   },
   "npm": {
@@ -85,8 +85,8 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@onamea/types@~0.3.7",
       "jsr:@std/assert@1",
-      "jsr:@vanice/types@~0.3.7",
       "npm:@cfworker/json-schema@^4.1.1"
     ]
   }

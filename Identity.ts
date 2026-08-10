@@ -1,4 +1,4 @@
-import type { PrimaryKey, Name, FingerprintedName, NameKey, FingerprintDisplay, PublicKeyDisplay, PrivateKeyDisplay, CryptoName, KeyPairDisplay, MnemonicDisplayWithPassphrase, MnemonicDisplay } from "@vanice/types"
+import type { PrimaryKey, Name, FingerprintedName, NameKey, FingerprintDisplay, PublicKeyDisplay, PrivateKeyDisplay, CryptoName, KeyPairDisplay, MnemonicDisplayWithPassphrase, MnemonicDisplay } from "@onamea/types"
 import { 
   isPrimaryKey, 
   readCryptoNameFromPrimaryKey, 
@@ -20,7 +20,7 @@ import {
   isMnemonicDisplayWithPassphrase, 
   fromMnemonicDisplayWithPassphrase, 
   isMnemonicDisplay
-} from "@vanice/types"
+} from "@onamea/types"
 import type { Operations } from "./Operation.ts"
 import { areOperations, buildItemFromOperations, buildIdentityFromOperations } from "./Operations.ts"
 import { isMessage, type Messages } from "./Message.ts"

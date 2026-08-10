@@ -1,4 +1,4 @@
-import type { NameKey, PrimaryKey, PublicKeyDisplay, FingerprintedName, Name, CryptoName } from "@vanice/types"
+import type { NameKey, PrimaryKey, PublicKeyDisplay, FingerprintedName, Name, CryptoName } from "@onamea/types"
 import type { Flavor } from "./lib/utils/Flavor.ts"
 import isArray from "./lib/utils/isArray.ts"
 import isString from "./lib/utils/isString.ts"
@@ -13,7 +13,7 @@ import {
   publicKeyToPrimaryKey, 
   isPublicKeyDisplay, 
   fromPublicKeyDisplay 
-} from "@vanice/types"
+} from "@onamea/types"
 
 export type IdentityKey = NameKey | PrimaryKey | PublicKeyDisplay
 export type IdentityKeys = IdentityKey[]

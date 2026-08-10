@@ -1,5 +1,5 @@
 import { assert, assertFalse, assertRejects } from "@std/assert"
-import { toNameKey } from "@vanice/types"
+import { toNameKey } from "@onamea/types"
 import mockData from "./data.mock.ts"
 import { createCreateOperation } from "../Operation.ts"
 import { toRawOperation } from "../RawOperation.ts"

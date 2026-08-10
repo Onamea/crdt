@@ -1,6 +1,6 @@
 import { assertEquals, assertThrows } from "@std/assert"
 import mockData from "../data.mock.ts"
-import { toNameKey } from "@vanice/types"
+import { toNameKey } from "@onamea/types"
 import { createCreateOperation, createDeleteOperation, createSetOperation } from "../../Operation.ts"
 import { buildOperationTree, flattenOperationTree } from "../../lib/Tree.ts"
 

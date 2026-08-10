@@ -1,4 +1,4 @@
-import type { Hash } from "@vanice/types"
+import type { Hash } from "@onamea/types"
 import {
   type Operation,
   type NonCreateOperation,

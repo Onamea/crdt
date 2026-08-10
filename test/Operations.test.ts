@@ -1,6 +1,6 @@
 import { assert, assertEquals, assertFalse } from "@std/assert"
 import mockData from "./data.mock.ts"
-import { toNameKey } from "@vanice/types"
+import { toNameKey } from "@onamea/types"
 import { createCreateOperation, createDeleteOperation, createDenounceOperation, createGrantOperation, createRevokeOperation, createRelateOperation, createRevertOperation, createSetOperation, createUnrelateOperation, createVouchOperation, createValidateOperation } from "../Operation.ts"
 import { buildIdentityFromOperations, buildItemFromOperations, getLatestHashFromOperations, getPreviousHash, operationsIncludeOperation } from "../Operations.ts"
 

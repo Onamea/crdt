@@ -1,6 +1,6 @@
-import { primaryKeyToPublicKey } from "@vanice/types"
-import { displayFingerprint, publicKeyToFingerprint } from "@vanice/types"
-import type { Hash } from "@vanice/types"
+import { primaryKeyToPublicKey } from "@onamea/types"
+import { displayFingerprint, publicKeyToFingerprint } from "@onamea/types"
+import type { Hash } from "@onamea/types"
 import { 
   type Operation, 
   type OperationName, 
@@ -20,9 +20,9 @@ import {
   isValidateOperation,
   createCreateOperation
 } from "./Operation.ts"
-import { parseNameKey } from "@vanice/types"
+import { parseNameKey } from "@onamea/types"
 import type { Id, Identity, Item } from "./Identity.ts"
-import { displayPublicKey } from "@vanice/types"
+import { displayPublicKey } from "@onamea/types"
 import isArray from "./lib/utils/isArray.ts"
 import toArray from "./lib/utils/toArray.ts"
 import { validate } from "./lib/validate.ts"

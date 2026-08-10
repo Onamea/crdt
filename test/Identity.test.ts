@@ -1,6 +1,6 @@
 import { assert, assertFalse } from "@std/assert"
-import { displayPublicKeyByCryptoName, keyPairFromPrivateKey } from "@vanice/types"
-import { toNameKey } from "@vanice/types"
+import { displayPublicKeyByCryptoName, keyPairFromPrivateKey } from "@onamea/types"
+import { toNameKey } from "@onamea/types"
 import identityMock from "./identity.mock.json" with { type: "json" }
 import mockData from "./data.mock.ts"
 import { createCreateOperation, createSetOperation } from "../Operation.ts"

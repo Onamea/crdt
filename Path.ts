@@ -1,12 +1,12 @@
 import { type IdentityKey, isIdentifier } from "./Identifier.ts"
 import type { Id } from "./Identity.ts"
-import { displayFingerprint, fingerprintToUint8Array, fromFingerprintDisplay, idToFingerprint, isFingerprintDisplay, publicKeyToFingerprint, uint8ArrayToFingerprint, type FingerprintDisplay } from "@vanice/types"
+import { displayFingerprint, fingerprintToUint8Array, fromFingerprintDisplay, idToFingerprint, isFingerprintDisplay, publicKeyToFingerprint, uint8ArrayToFingerprint, type FingerprintDisplay } from "@onamea/types"
 import findLastUnescaped from "./lib/utils/findLastUnescaped.ts"
 import splitUnescaped from "./lib/utils/splitUnescaped.ts"
-import { isNameKey, nameKeyToFingerprint } from "@vanice/types"
-import { isPrimaryKey, primaryKeyToFingerprint } from "@vanice/types"
-import { isPublicKeyDisplay } from "@vanice/types"
-import { fromPublicKeyDisplay } from "@vanice/types"
+import { isNameKey, nameKeyToFingerprint } from "@onamea/types"
+import { isPrimaryKey, primaryKeyToFingerprint } from "@onamea/types"
+import { isPublicKeyDisplay } from "@onamea/types"
+import { fromPublicKeyDisplay } from "@onamea/types"
 import type { Flavor } from "./lib/utils/Flavor.ts"
 
 const elementTypes = {

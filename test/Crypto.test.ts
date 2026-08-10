@@ -9,7 +9,7 @@ import {
   generateMnemonic, 
   primaryKeyToFingerprintedName, 
   toNameKey 
-} from "@vanice/types"
+} from "@onamea/types"
 import { 
   identify, 
 } from "../Identity.ts"

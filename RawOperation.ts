@@ -1,5 +1,5 @@
-import { isNameKey } from "@vanice/types"
-import { isHash } from "@vanice/types"
+import { isNameKey } from "@onamea/types"
+import { isHash } from "@onamea/types"
 import { isSubKeyDomain } from "./Identifier.ts"
 import { isId } from "./Identity.ts"
 import type { OperationWithoutHash, PreviousHashOperation, Operation, OperationType, SetOperation, GrantOperation, VouchOperation, RelateOperation, ValidateOperation } from "./Operation.ts"

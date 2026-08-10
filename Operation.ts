@@ -1,4 +1,4 @@
-import { type Hash, type NameKey, isHash, messageToHash } from "@vanice/types"
+import { type Hash, type NameKey, isHash, messageToHash } from "@onamea/types"
 import { toRawOperation } from "./RawOperation.ts"
 import { isIdentityKey, type SubKeyDomain } from "./Identifier.ts"
 import { type Id, type Body, isId } from "./Identity.ts"

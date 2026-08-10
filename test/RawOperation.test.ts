@@ -2,7 +2,7 @@ import { assertEquals } from "@std/assert"
 import { createCreateOperation, createSetOperation, createDeleteOperation, hashOperation, createGrantOperation } from "../Operation.ts"
 import { parseRawOperation, toRawOperation } from "../RawOperation.ts"
 import mockData from "./data.mock.ts"
-import { toNameKey } from "@vanice/types"
+import { toNameKey } from "@onamea/types"
 
 Deno.test("parseOperation", async () => {
 
