@@ -1,0 +1,12 @@
+import type { Hash } from "@onamea/types";
+import { type Operation, type OperationName } from "./Operation.js";
+import type { Id, Identity, Item } from "./Identity.js";
+type Operations = Operation[];
+export declare const areOperations: (value: unknown) => value is Operations;
+export declare const operationsIncludeOperation: (operations: Operations, hash: Hash) => boolean;
+export declare const getLatestHashFromOperations: (operations: Operations, operationType?: OperationName | OperationName[]) => Hash | undefined;
+export declare const getPreviousHash: (operations: Operations, operationName: Omit<OperationName, "CREATE">, operationHash?: Hash) => Hash | undefined;
+export declare const buildItemFromId: (id: Id) => Promise<Item>;
+export declare const buildItemFromOperations: (operations: Operations, id: Id, buildRelations?: boolean) => Promise<Item>;
+export declare const buildIdentityFromOperations: (operations: Operations, id: Identity["id"], buildRelations?: boolean) => Promise<Identity>;
+export {};

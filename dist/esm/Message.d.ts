@@ -1,0 +1,25 @@
+import { type KeyPair, type PublicKeyDisplay } from "@onamea/types";
+import type { SignatureDisplay } from "@onamea/types";
+import { type Hash } from "@onamea/types";
+import { type CryptoName } from "@onamea/types";
+import { type RawOperation } from "./RawOperation.js";
+import { type Operation } from "./Operation.js";
+export type Datetime = string | number;
+export type Message = {
+    raw: RawOperation;
+    cryptoName: CryptoName;
+    publicKey: PublicKeyDisplay;
+    signature: SignatureDisplay;
+    datetime?: Datetime;
+};
+export type UnsignedMessage = Omit<Message, "cryptoName" | "publicKey" | "signature" | "datetime">;
+export type Messages = Message[];
+export declare const isDatetime: (value: unknown) => value is Datetime;
+export declare const isMessage: (value: unknown) => value is Message;
+export declare const digest: (rawOperation: RawOperation, datetime?: Datetime) => Promise<Hash>;
+export declare const createUnsignedMessage: (operation: Operation) => UnsignedMessage;
+export declare const signMessage: (message: UnsignedMessage, keyPair: KeyPair, datetime?: Datetime) => Promise<Message>;
+export declare const signOperation: (operation: Operation, keyPair: KeyPair, datetime?: Datetime) => Promise<Message>;
+export declare const signOperations: (operations: Operation[], keyPair: KeyPair, datetime?: Datetime) => Promise<Messages>;
+export declare const verifyMessage: (message: Message) => Promise<boolean>;
+export declare const isSignedByOwner: (message: Message) => Promise<boolean>;

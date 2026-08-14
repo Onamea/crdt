@@ -1,0 +1,20 @@
+import type { NameKey, PrimaryKey, PublicKeyDisplay, FingerprintedName, Name, CryptoName } from "@onamea/types";
+import type { Flavor } from "./lib/utils/Flavor.js";
+export type IdentityKey = NameKey | PrimaryKey | PublicKeyDisplay;
+export type IdentityKeys = IdentityKey[];
+export type IdentityKeyDomain = Flavor<string, "IdentityKeyDomain">;
+export type Identifier = IdentityKey | FingerprintedName;
+export type SubKeyDomain = Flavor<string, "SubKeyDomain">;
+export type SubKey = {
+    subKey: NameKey;
+    domain?: SubKeyDomain;
+};
+export type SubKeys = SubKey[];
+export declare const isIdentityKey: (value: unknown) => value is IdentityKey;
+export declare const areIdentityKeys: (values: unknown) => values is IdentityKeys;
+export declare const isIdentityKeyDomain: (value: unknown) => value is IdentityKeyDomain;
+export declare const isSubKeyDomain: (value: unknown) => value is SubKeyDomain;
+export declare const isSubKey: (value: unknown) => value is SubKey;
+export declare const areSubKeys: (values: unknown) => values is SubKeys;
+export declare const isIdentifier: (value: unknown) => value is Identifier;
+export declare const identifierToFingerprintedName: (identifier: Identifier, name?: Name, cryptoName?: CryptoName) => Promise<FingerprintedName>;
