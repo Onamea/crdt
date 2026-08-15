@@ -24,7 +24,7 @@ import {
 import type { Operations } from "./Operation.ts"
 import { areOperations, buildItemFromOperations, buildIdentityFromOperations } from "./Operations.ts"
 import { isMessage, type Messages } from "./Message.ts"
-import { type PathStringified, isPathStringified, parseAmbiguousPath } from "./Path.ts"
+import { type PathStringified, isPathStringified, parsePath } from "./Path.ts"
 import isObject from "./lib/utils/isObject.ts"
 import isArray from "./lib/utils/isArray.ts"
 import isString from "./lib/utils/isString.ts"
@@ -187,7 +187,7 @@ export const identify = async (id: Identifier | PathStringified, privateKeyOrMne
   } else if (isFingerprintedName(id)) {
     return await tryFindingIdentity(id)
   } else if (isPathStringified(id)) {
-    const path = parseAmbiguousPath(id)
+    const path = parsePath(id)
     if (path.elements[0]?.type === "IDENTITY") {
       if (path.elements[1]?.type === "SUBKEY") {
         const [, keyPair] = await tryFindingIdentity(path.elements[1].id as FingerprintedName)

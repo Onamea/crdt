@@ -10,7 +10,7 @@ import { fromPublicKeyDisplay } from "@onamea/types"
 import type { Flavor } from "./lib/utils/Flavor.ts"
 
 const elementTypes = {
-  IDENTITY: "@",
+  IDENTITY: undefined,
   SUBKEY: "$",
   REFERENT: ">",
   ITEM: undefined
@@ -82,6 +82,27 @@ export const pathElementFromIdentityKey = async (id: IdentityKey, type: Exclude<
   return { id, type }
 }
 
+export const addFingerprintToPathElement = async (element: PathElement): Promise<PathElement> => {
+  if (element.fingerprint !== undefined) {
+    return element
+  }
+  if (isNameKey(element.id) || element.type === "ITEM") {
+    const fingerprint = displayFingerprint(await idToFingerprint(element.id))
+    return { ...element, fingerprint }
+  }
+  return element
+}
+
+const setElementTypesOnPathStart = (path: Path) : Path => {
+  if (path.elements[0]?.type === "ITEM" && isIdentifier(path.elements[0]?.id)) {
+    path.elements[0].type = "IDENTITY"
+    if (path.elements[1]?.type === "ITEM" && isIdentifier(path.elements[1]?.id)) {
+      path.elements[1].type = "SUBKEY"
+    }
+  }
+  return path
+}
+
 export const parsePath = (path: PathStringified): Path => {
   const hashIndex = findLastUnescaped(path, "#") 
   const fingerprint = hashIndex > -1 ? path.slice(hashIndex + 1) : undefined
@@ -90,18 +111,7 @@ export const parsePath = (path: PathStringified): Path => {
   }
   const leftover = hashIndex > -1 ? path.slice(0, hashIndex) : path
   const elements = splitUnescaped(leftover, "/").map(pathElement => parsePathElement(pathElement))
-  return { elements, fingerprint }
-}
-
-export const parseAmbiguousPath = (pathStringified: PathStringified): Path => {
-  const path = parsePath(pathStringified)
-  if (path.elements[0]?.type === "ITEM" && isIdentifier(path.elements[0]?.id)) {
-    path.elements[0].type = "IDENTITY"
-    if (path.elements[1]?.type === "ITEM" && isIdentifier(path.elements[1]?.id)) {
-      path.elements[1].type = "SUBKEY"
-    }
-  }
-  return path
+  return setElementTypesOnPathStart({ elements, fingerprint })
 }
 
 export const isPathStringified = (value: unknown): value is PathStringified => {
@@ -116,11 +126,7 @@ export const isPathStringified = (value: unknown): value is PathStringified => {
 
 export const pathToFingerprintDisplay = async (path: Path): Promise<FingerprintDisplay> => {
   const pathWithFingerprints = await Promise.all(path.elements.map(async element => {
-    if (element.type === "ITEM" && element.fingerprint === undefined) {
-      const fingerprint = displayFingerprint(await idToFingerprint(element.id))
-      return { ...element, fingerprint }
-    }
-    return element
+    return await addFingerprintToPathElement(element)
   }))
   if (pathWithFingerprints.some(element => element.fingerprint === undefined)) {
     throw new Error("Cannot get FingerprintDisplay of Path: missing fingerprint for some elements")

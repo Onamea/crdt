@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert"
-import { buildPathFromElements, parseAmbiguousPath, parsePath } from "../Path.ts"
+import { buildPathFromElements, parsePath } from "../Path.ts"
 
 Deno.test("buildPathFromElements", () => {
   const elements = [
@@ -8,11 +8,11 @@ Deno.test("buildPathFromElements", () => {
     { id: "item-42", type: "ITEM" as const }
   ]
   const pathString = buildPathFromElements(elements)
-  assertEquals(pathString, "@Mike⏰⚡️💪/$key🍴🚗🏠🎄🦋/item-42")
+  assertEquals(pathString, "Mike⏰⚡️💪/$key🍴🚗🏠🎄🦋/item-42")
 })
 
 Deno.test("parsePath", () => {
-  const path = parsePath("@Mike⏰⚡️💪/$key🍴🚗🏠🎄🦋/item-42")
+  const path = parsePath("Mike⏰⚡️💪/$key🍴🚗🏠🎄🦋/item-42")
   assertEquals(path, { 
     elements: [
       { id: "Mike⏰⚡️💪", type: "IDENTITY" },
@@ -24,7 +24,7 @@ Deno.test("parsePath", () => {
 })
 
 Deno.test("parsePath fingerprint", () => {
-  const path2 = parsePath("@Mike⏰⚡️💪/$key🍴🚗🏠🎄🦋/item-43#⚡️🎄🌙❤️🎁")
+  const path2 = parsePath("Mike⏰⚡️💪/$key🍴🚗🏠🎄🦋/item-43#⚡️🎄🌙❤️🎁")
   assertEquals(path2, { 
     elements: [
       { id: "Mike⏰⚡️💪", type: "IDENTITY" },
@@ -36,7 +36,7 @@ Deno.test("parsePath fingerprint", () => {
 })
 
 Deno.test("parsePath escaped", () => {
-  const path3 = parsePath("@Mike⏰⚡️💪/\\$item-43")
+  const path3 = parsePath("Mike⏰⚡️💪/\\$item-43")
   assertEquals(path3, { 
     elements: [
       { id: "Mike⏰⚡️💪", type: "IDENTITY" },
@@ -47,7 +47,7 @@ Deno.test("parsePath escaped", () => {
 })
 
 Deno.test("parsePath escaped fingerprint", () => {
-  const path2 = parsePath("@Mike⏰⚡️💪/item-43\\#⚡️")
+  const path2 = parsePath("Mike⏰⚡️💪/item-43\\#⚡️")
   assertEquals(path2, { 
     elements: [
       { id: "Mike⏰⚡️💪", type: "IDENTITY" },
@@ -57,8 +57,8 @@ Deno.test("parsePath escaped fingerprint", () => {
   })
 })
 
-Deno.test("parseAmbiguousPath", () => {
-  const path = parseAmbiguousPath("Mike⏰⚡️💪/key🍴🚗🏠🎄🦋")
+Deno.test("parsePath, setElementTypesOnPathStart", () => {
+  const path = parsePath("Mike⏰⚡️💪/key🍴🚗🏠🎄🦋")
   assertEquals(path, { 
     elements: [
       { id: "Mike⏰⚡️💪", type: "IDENTITY" },
@@ -67,7 +67,7 @@ Deno.test("parseAmbiguousPath", () => {
     fingerprint: undefined
   })
 
-  const path2 = parseAmbiguousPath("Mike⏰⚡️💪/AB5M46V7KKKGT8H3DPBRG7SB9Q19YRWPD6XRWWV3GGYPNUD71MK02")
+  const path2 = parsePath("Mike⏰⚡️💪/AB5M46V7KKKGT8H3DPBRG7SB9Q19YRWPD6XRWWV3GGYPNUD71MK02")
   assertEquals(path2, { 
     elements: [
       { id: "Mike⏰⚡️💪", type: "IDENTITY" },
@@ -76,7 +76,7 @@ Deno.test("parseAmbiguousPath", () => {
     fingerprint: undefined
   })
 
-  const path3 = parseAmbiguousPath("Mike⏰⚡️💪/Ab@5M46V7KKKGT8H3DPBRG7SB9Q19YRWPD6XRWWV3GGYPNUD71MK02")
+  const path3 = parsePath("Mike⏰⚡️💪/Ab@5M46V7KKKGT8H3DPBRG7SB9Q19YRWPD6XRWWV3GGYPNUD71MK02")
   assertEquals(path3, { 
     elements: [
       { id: "Mike⏰⚡️💪", type: "IDENTITY" },
